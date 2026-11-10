@@ -1529,7 +1529,7 @@
       </div>
       <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 flex flex-col items-center justify-center space-y-3">
         <div id="qrcode-image-container" class="bg-white p-3 rounded-lg shadow-sm border border-slate-200 flex items-center justify-center">
-          <img id="dynamic-qr-img" src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=https%3A%2F%2Fkimlo931003-art.github.io%2Fvisit-taiwan-web5%2F" alt="Scan QR Code" class="w-40 h-40 object-contain rounded" />
+          <img id="dynamic-qr-img" src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=https%3A%2F%2Fkimlo931003-art.github.io%2Fvisit-taiwan-web6%2F" alt="Scan QR Code" class="w-40 h-40 object-contain rounded" />
         </div>
         <p class="text-xs text-slate-600 leading-relaxed" data-i18n="qr_modal_desc">
           請使用手機相機掃描上方 QR Code，即可直接開啟您的線上專屬網頁進行填寫測試！
@@ -2557,6 +2557,7 @@
       syncInsuredIfSame();
       updateMobileStickyBarUI();
       updateStepperUI();
+      updateQrCodeToCurrentUrl();
       document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') {
           closeCustomDatePicker();
@@ -3507,7 +3508,19 @@
       modal.classList.remove('flex');
     }
 
+    function updateQrCodeToCurrentUrl() {
+      const qrImg = document.getElementById('dynamic-qr-img');
+      if (!qrImg) return;
+      const defaultUrl = 'https://kimlo931003-art.github.io/visit-taiwan-web6/';
+      const isGithubPages = window.location && window.location.hostname && window.location.hostname.endsWith('github.io');
+      const targetUrl = isGithubPages
+        ? (window.location.origin + window.location.pathname)
+        : defaultUrl;
+      qrImg.src = 'https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=' + encodeURIComponent(targetUrl);
+    }
+
     function openPresentationQrModal() {
+      updateQrCodeToCurrentUrl();
       const modal = document.getElementById('presentation-qr-modal');
       modal.classList.remove('hidden');
       modal.classList.add('flex');
